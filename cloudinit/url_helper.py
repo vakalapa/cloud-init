@@ -123,7 +123,7 @@ class StringResponse(object):
         return True
 
     def __str__(self):
-        return self.contents
+        return self.contents.decode('utf-8')
 
 
 class FileResponse(StringResponse):
