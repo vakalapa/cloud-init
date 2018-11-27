@@ -305,6 +305,9 @@ read_dmi_chassis_asset_tag() {
     cached "${DI_DMI_CHASSIS_ASSET_TAG}" && return
     get_dmi_field chassis_asset_tag
     DI_DMI_CHASSIS_ASSET_TAG="$_RET"
+    if [ "${DI_DMI_CHASSIS_ASSET_TAG}" == "unavailable" ]; then
+       DI_DMI_CHASSIS_ASSET_TAG=$(dmidecode -t 3 | grep "Asset Tag" | cut  -d' ' -f3- )
+    fi
 }
 
 read_dmi_sys_vendor() {
@@ -317,6 +320,9 @@ read_dmi_product_name() {
     cached "${DI_DMI_PRODUCT_NAME}" && return
     get_dmi_field product_name
     DI_DMI_PRODUCT_NAME="$_RET"
+    if [ "${DI_DMI_PRODUCT_NAME}" == "unavailable" ]; then
+       DI_DMI_PRODUCT_NAME=$(dmidecode -t 2 | grep "Product Name"  |  cut  -d' ' -f3-)
+    fi
 }
 
 read_dmi_product_uuid() {
@@ -329,6 +335,9 @@ read_dmi_product_serial() {
     cached "${DI_DMI_PRODUCT_SERIAL}" && return
     get_dmi_field product_serial
     DI_DMI_PRODUCT_SERIAL="$_RET"
+    if [ "${DI_DMI_PRODUCT_SERIAL}" == "unavailable" ]; then
+       DI_DMI_PRODUCT_SERIAL=$(dmidecode -t 1 | grep "Serial Number"  |  cut  -d' ' -f3-)
+    fi
 }
 
 # shellcheck disable=2034
